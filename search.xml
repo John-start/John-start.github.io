@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title>Hello World</title>
+    <url>/2024/05/05/hello-world/</url>
+    <content><![CDATA[<center>我记得有些路是我一个人走过来的</center>
+
+<center>路很黑</center>
+
+<center>风也很大</center>]]></content>
+      <tags>
+        <tag>随笔</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>epsilon-约束方法</title>
+    <url>/2024/05/06/epsilon-%E7%BA%A6%E6%9D%9F%E6%96%B9%E6%B3%95/</url>
+    <content><![CDATA[<h1 id="varepsilon-约束方法（这样GUROBI也能解多目标问题了！）"><a href="#varepsilon-约束方法（这样GUROBI也能解多目标问题了！）" class="headerlink" title="$\varepsilon$-约束方法（这样GUROBI也能解多目标问题了！）"></a>$\varepsilon$-约束方法（这样GUROBI也能解多目标问题了！）</h1><p>一般解决多目标优化问题的算法都是NSGA-II算法、MOEA-D算法等多目标智能算法。采用Gurobi精确求解的方法往往难以求出pareto最优解，只能通过对多个目标进行加权的方式求解。今天我们学习一种方法，借助它我们也可以使用Gurobi等求解工具求解多目标优化算法，且其求解效果比加权法更好。</p>
+<p><img src="/../images/image-20240304112349257.png"></p>
+<hr>
+<h2 id="varepsilon-约束方法简介"><a href="#varepsilon-约束方法简介" class="headerlink" title="$\varepsilon$-约束方法简介"></a>$\varepsilon$-约束方法简介</h2><p>$\varepsilon$-约束方法是一种多目标优化算法。它基于约束优化的思想，通过引入一个参数$\varepsilon$来控制目标函数的权重，从而保证满足约束条件的前提下，寻找到最优解的近似解集。</p>
+<p>通过选取一个主目标函数，将其余目标函数转化为约束，从而计算每个子优化目标，得到帕累托解集。</p>
+<h2 id="过程"><a href="#过程" class="headerlink" title="过程"></a>过程</h2><p>针对一个多目标优化问题：<br>$$<br>min {f_1(x),f_2(x),f_3(x)} \<br>h(x)&#x3D;0 \<br>g(x)\leq 0<br>$$</p>
+<p>使用ε约束算法转化问题为：<br>$$<br>min f_1(x) \<br>f_2(x)\leq \epsilon_2,\cdots,f_n(x)\leq\epsilon_n \<br>h(x) &#x3D; 0 \<br>g(x) \leq 0<br>$$<br>其中的每个参数$\epsilon_2,\epsilon_3,\cdots,\epsilon_n$通过计算payoff矩阵得到。</p>
+<p>payoff的计算过程：</p>
+<ol>
+<li><p>求解出第i个目标函数的最优值$f_i(x_i^*)$，得到其最优解$x_i^*$；</p>
+</li>
+<li><p>将$x_i^*$代入其他目标函数得到${f_1(x_i^*),f_2(x_i^*),\cdots,f_n(x_i^*)}$；</p>
+</li>
+<li><p>对全部目标函数按照上述流程求解，得到payoff table矩阵如下：<br>$$<br>\begin{bmatrix}<br>f_1(x_1^*) &amp; \cdots &amp; f_i(x_1^*) &amp;\cdots &amp; f_n(x_1^*)\<br>\vdots&amp; \ddots &amp;&amp;&amp; \vdots\<br>f_1(x_i^*) &amp; \cdots &amp; f_i(x_i^*) &amp;\cdots &amp; f_n(x_i^*)\<br>\vdots&amp; \ddots&amp; &amp; &amp; \vdots \<br>f_1(x_n^*) &amp; \cdots &amp; f_i(x_n^*) &amp;\cdots &amp; f_n(x_n^*)\<br>\end{bmatrix}<br>$$</p>
+</li>
+</ol>
+<p>该方法本质上与网格搜索法相同。得到了payoff矩阵之后，可以求出每个目标的最优值和最劣值（就是每个目标维度的最大和最小值）。记为最优解(U)和最劣解(SN)$f_i^U &#x3D; f_i(x_i^*)$,$f_i^{SN} &#x3D; f_i(x_j^*)$。</p>
+<p>选择一个主目标函数$f_k(x)$。</p>
+<p>对于主目标函数外的目标函数$f_{i}(x)$，设置一个网格化分数$q_{ij}∈{1,2,\cdots,q_i,max} $。</p>
+<p>由此计算除了主目标函数外的其余目标函数的ε约束如下：<br>$$<br>ϵ_{ij}&#x3D;f_i^{SN}−\frac{(f_i^{SN}−f_i^{U})}{q_{ij}}⋅j \qquad j&#x3D;1,2,…,q_{i,max}<br>$$<br>得到每个优化子问题如下：<br>$$<br>min f_k(x)\<br>s.t. \qquad f_1(x)\leq \epsilon_{1j},f_2(x)\leq \epsilon_{1l},f_n(x)\leq \epsilon_{1m},h(x)&#x3D;0,g(x)\leq0<br>$$<br>其中,$j&#x3D;1,2,\cdots,q_{1,max};l&#x3D;1,2,\cdots,q_{2,max};\cdots;m&#x3D;1,2,\cdots,q_{n,max};$</p>
+<p>每次求出一个最优解，若在可行域内则加入帕累托解集，若不在可行域内则丢弃。</p>
+<h2 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h2><p>$$<br>min \quad f_1(x) &#x3D; x_2-x_1 \<br>min \quad f_2(x) &#x3D; x_1+x_2 \<br>s.t. \qquad x_1^2 - 2x_1 + 1 \leq x_2 \<br>0 \leq x_1 \leq 1 \<br>0 \leq x_2 \leq 1<br>$$</p>
+<p>使用python+gurobi求解代码如下：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="comment"># @Time    : 2024/3/3 11:35</span></span><br><span class="line"><span class="comment"># @Author  : TUUG</span></span><br><span class="line"><span class="comment"># @Email   : tr6666666@qq.com</span></span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">from</span> matplotlib <span class="keyword">import</span> pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">import</span> gurobipy <span class="keyword">as</span> gp</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">f1</span>(<span class="params">constraint=<span class="literal">None</span></span>):</span><br><span class="line">    model = gp.Model()</span><br><span class="line">    x1 = model.addVar(name=<span class="string">&quot;X1&quot;</span>,vtype=gp.GRB.CONTINUOUS,lb=<span class="number">0</span>,ub=<span class="number">1</span>)</span><br><span class="line">    x2 = model.addVar(name=<span class="string">&quot;X2&quot;</span>,vtype=gp.GRB.CONTINUOUS,lb=<span class="number">0</span>,ub=<span class="number">1</span>)</span><br><span class="line">    <span class="comment"># 添加约束</span></span><br><span class="line">    model.addConstr(x1*x1-<span class="number">2</span>*x1+<span class="number">1</span>&lt;=x2)</span><br><span class="line">    <span class="keyword">if</span> constraint <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">        model.addConstr(x1+x2&lt;=constraint)</span><br><span class="line">    <span class="comment"># 定义目标函数</span></span><br><span class="line">    model.setObjective(x2-x1, sense = gp.GRB.MINIMIZE)</span><br><span class="line">    model.update()</span><br><span class="line">    <span class="comment"># 求解模型</span></span><br><span class="line">    model.optimize()</span><br><span class="line">    <span class="keyword">return</span> x1.x,x2.x</span><br><span class="line">    </span><br><span class="line"><span class="keyword">def</span> <span class="title function_">f2</span>():</span><br><span class="line">    <span class="comment"># 创建模型</span></span><br><span class="line">    m2 = gp.Model(<span class="string">&quot;f2_optimization&quot;</span>)</span><br><span class="line">    <span class="comment"># 定义变量</span></span><br><span class="line">    x1 = m2.addVar(name=<span class="string">&quot;X1&quot;</span>,vtype=gp.GRB.CONTINUOUS,lb=<span class="number">0</span>,ub=<span class="number">1</span>)</span><br><span class="line">    x2 = m2.addVar(name=<span class="string">&quot;X2&quot;</span>,vtype=gp.GRB.CONTINUOUS,lb=<span class="number">0</span>,ub=<span class="number">1</span>)</span><br><span class="line">    <span class="comment"># 添加约束</span></span><br><span class="line">    m2.addConstr(x1*x1-<span class="number">2</span>*x1+<span class="number">1</span>&lt;=x2)</span><br><span class="line">    <span class="comment"># model.addConstr(x2-x1&gt;=cons)</span></span><br><span class="line">    <span class="comment"># 定义目标函数</span></span><br><span class="line">    m2.setObjective(x2+x1, sense = gp.GRB.MINIMIZE)</span><br><span class="line">    <span class="comment"># 求解模型</span></span><br><span class="line">    m2.optimize()</span><br><span class="line">    <span class="keyword">return</span> x1.x,x2.x</span><br><span class="line"></span><br><span class="line">f11,f12 = f1()</span><br><span class="line">f21,f22 = f2()</span><br><span class="line">f1_min = f12-f11</span><br><span class="line">f2_max = f11+f12</span><br><span class="line">f2_min = f21+f22</span><br><span class="line">f1_max = f22-f21</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;--------------&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(f2_min,f2_max)</span><br><span class="line">soultion_pool = []</span><br><span class="line">q_n =<span class="number">10</span></span><br><span class="line"><span class="keyword">for</span> q <span class="keyword">in</span> <span class="built_in">range</span>(q_n):</span><br><span class="line">    constraint = f2_max-(f2_max-f2_min)/q_n*q</span><br><span class="line">    <span class="comment"># constraint = np.linspace(f2_min,f2_max,10)[q]</span></span><br><span class="line">    f11,f12 = f1(constraint=constraint)</span><br><span class="line">    soultion_pool.append([f12-f11,f11+f12])</span><br><span class="line"><span class="built_in">print</span>(soultion_pool)</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line">pareto_front_solutions = np.array(soultion_pool)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 绘制 Pareto 前沿解</span></span><br><span class="line">plt.scatter(pareto_front_solutions[:, <span class="number">0</span>], pareto_front_solutions[:, <span class="number">1</span>], label=<span class="string">&#x27;Pareto Front&#x27;</span>)</span><br><span class="line">plt.xlabel(<span class="string">&#x27;f1(x)&#x27;</span>)</span><br><span class="line">plt.ylabel(<span class="string">&#x27;f2(x)&#x27;</span>)</span><br><span class="line">plt.title(<span class="string">&#x27;Pareto Front for Multi-objective Optimization&#x27;</span>)</span><br><span class="line">plt.legend()</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+
+<p>求解结果展示如下</p>
+<p>网格化分数取10时：</p>
+<p><img src="/../images/image-20240304112820159.png"></p>
+<p>网格化分数取20时：</p>
+<p><img src="/../images/image-20240304112906514.png"></p>
+<p>网格化分数取100时：</p>
+<p><img src="/../images/image-20240304112938975.png"></p>
+<p>可以看到，这个方法有一个很好的性质，就是可以通过增大网格化分数来改善求解结果，使其更接近真实帕累托前沿。如果求解时间过长可以减小网格化分数来缩短求解时间。</p>
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><p>[1] Ismail-Yahaya A, Messac A. Effective generation of the Pareto frontier using the normal constraint method[C]&#x2F;&#x2F;40th AIAA Aerospace Sciences Meeting &amp; Exhibit. 2002: 178.</p>
+<p>[2] Fan Z, Li W, Cai X, et al. An improved epsilon constraint-handling method in MOEA&#x2F;D for CMOPs with large infeasible regions[J]. Soft Computing, 2019, 23: 12491-12510.</p>
+<p>[3] Yang Z, Cai X, Fan Z. Epsilon constrained method for constrained multi-objective optimization problems: some preliminary results[C]&#x2F;&#x2F;Proceedings of the companion publication of the 2014 annual conference on genetic and evolutionary computation. 2014: 1181-1186.</p>
+<p>[4]  <a href="https://blog.csdn.net/weixin_44786238/article/details/126068290">【多目标规划问题求解】ε-约束算法_约束法多目标规划问题求解-CSDN博客</a></p>
+]]></content>
+      <tags>
+        <tag>精确优化方法</tag>
+      </tags>
+  </entry>
+</search>
