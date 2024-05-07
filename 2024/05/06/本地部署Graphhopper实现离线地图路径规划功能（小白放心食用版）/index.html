@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.2.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="介绍了在本地使用Graphhopper，从而实现离线获取两点之间路径的办法。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="本地部署Graphhopper实现离线地图路径规划功能（小白放心食用版）">
+<meta property="og:url" content="http://example.com/2024/05/06/%E6%9C%AC%E5%9C%B0%E9%83%A8%E7%BD%B2Graphhopper%E5%AE%9E%E7%8E%B0%E7%A6%BB%E7%BA%BF%E5%9C%B0%E5%9B%BE%E8%B7%AF%E5%BE%84%E8%A7%84%E5%88%92%E5%8A%9F%E8%83%BD%EF%BC%88%E5%B0%8F%E7%99%BD%E6%94%BE%E5%BF%83%E9%A3%9F%E7%94%A8%E7%89%88%EF%BC%89/index.html">
+<meta property="og:site_name" content="TUUG个人主页">
+<meta property="og:description" content="介绍了在本地使用Graphhopper，从而实现离线获取两点之间路径的办法。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/..%5Cimages%5Cac2d62d546e648f9a608f0b487bc035e.png">
+<meta property="og:image" content="http://example.com/images/c89e702ea5bf4b46af6f490fa46fbad9.png">
+<meta property="og:image" content="http://example.com/images/f31c651486a9435fa42f660df98c3db4.png">
+<meta property="og:image" content="http://example.com/images/0177ed1aa0c949d79299f093a54f223b.png">
+<meta property="og:image" content="http://example.com/images/3587bb7a924949f98ad55730f4b02f1d.png">
+<meta property="og:image" content="http://example.com/images/9eda1b49f747438e8bfd090470baedbe.png">
+<meta property="og:image" content="http://example.com/images/87a27c28e3a54dae905273dfc1747aed.png">
+<meta property="article:published_time" content="2024-05-06T11:52:17.347Z">
+<meta property="article:modified_time" content="2024-05-06T12:28:35.810Z">
+<meta property="article:author" content="TUUG">
+<meta property="article:tag" content="车辆路径规划">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/..%5Cimages%5Cac2d62d546e648f9a608f0b487bc035e.png">
+
+
+<link rel="canonical" href="http://example.com/2024/05/06/%E6%9C%AC%E5%9C%B0%E9%83%A8%E7%BD%B2Graphhopper%E5%AE%9E%E7%8E%B0%E7%A6%BB%E7%BA%BF%E5%9C%B0%E5%9B%BE%E8%B7%AF%E5%BE%84%E8%A7%84%E5%88%92%E5%8A%9F%E8%83%BD%EF%BC%88%E5%B0%8F%E7%99%BD%E6%94%BE%E5%BF%83%E9%A3%9F%E7%94%A8%E7%89%88%EF%BC%89/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2024/05/06/%E6%9C%AC%E5%9C%B0%E9%83%A8%E7%BD%B2Graphhopper%E5%AE%9E%E7%8E%B0%E7%A6%BB%E7%BA%BF%E5%9C%B0%E5%9B%BE%E8%B7%AF%E5%BE%84%E8%A7%84%E5%88%92%E5%8A%9F%E8%83%BD%EF%BC%88%E5%B0%8F%E7%99%BD%E6%94%BE%E5%BF%83%E9%A3%9F%E7%94%A8%E7%89%88%EF%BC%89/","path":"2024/05/06/本地部署Graphhopper实现离线地图路径规划功能（小白放心食用版）/","title":"本地部署Graphhopper实现离线地图路径规划功能（小白放心食用版）"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>本地部署Graphhopper实现离线地图路径规划功能（小白放心食用版） | TUUG个人主页</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+<!-- hexo injector head_end end --><link rel="alternate" href="/atom.xml" title="TUUG个人主页" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">TUUG个人主页</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">成为你想成为的人</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-schedule"><a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>日程表</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%93%8D%E4%BD%9C%E6%AD%A5%E9%AA%A4"><span class="nav-number">1.</span> <span class="nav-text">操作步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9C%B0%E5%9B%BE"><span class="nav-number">1.1.</span> <span class="nav-text">地图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%90%AD%E5%BB%BA%E6%9C%AC%E5%9C%B0%E6%9C%8D%E5%8A%A1%EF%BC%88window%E7%8E%AF%E5%A2%83%EF%BC%89"><span class="nav-number">1.2.</span> <span class="nav-text">搭建本地服务（window环境）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%8B%E8%BD%BDGraphhopper"><span class="nav-number">1.3.</span> <span class="nav-text">下载Graphhopper</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9D%911-%E6%9C%AC%E5%9C%B0%E6%9C%8D%E5%8A%A1%E9%97%AE%E9%A2%98"><span class="nav-number">1.4.</span> <span class="nav-text">坑1-本地服务问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9D%912-cygwin%E9%97%AE%E9%A2%98"><span class="nav-number">1.5.</span> <span class="nav-text">坑2-cygwin问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9D%913-wget%E9%97%AE%E9%A2%98"><span class="nav-number">1.6.</span> <span class="nav-text">坑3-wget问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%AC%E5%9C%B0%E6%9C%8D%E5%8A%A1%EF%BC%8C%E5%90%AF%E5%8A%A8%EF%BC%81"><span class="nav-number">1.7.</span> <span class="nav-text">本地服务，启动！</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%80%E7%BB%88%E6%95%88%E6%9E%9C"><span class="nav-number">2.</span> <span class="nav-text">最终效果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-number">3.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="TUUG"
+      src="/images/%E9%AB%98%E8%BE%BE%E5%A4%B4%E5%83%8F.png">
+  <p class="site-author-name" itemprop="name">TUUG</p>
+  <div class="site-description" itemprop="description">心有所向，无问西东</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">4</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/John-start" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;John-start" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/tr666666@qq.com" title="E-Mail → tr666666@qq.com" rel="noopener me"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://blog.csdn.net/faithful1" title="CSDN → https:&#x2F;&#x2F;blog.csdn.net&#x2F;faithful1" rel="noopener me" target="_blank"><i class="fab fa-csdn fa-fw"></i>CSDN</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          链接
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://blog.csdn.net/faithful1" title="https:&#x2F;&#x2F;blog.csdn.net&#x2F;faithful1" rel="noopener" target="_blank">CSDN</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/05/06/%E6%9C%AC%E5%9C%B0%E9%83%A8%E7%BD%B2Graphhopper%E5%AE%9E%E7%8E%B0%E7%A6%BB%E7%BA%BF%E5%9C%B0%E5%9B%BE%E8%B7%AF%E5%BE%84%E8%A7%84%E5%88%92%E5%8A%9F%E8%83%BD%EF%BC%88%E5%B0%8F%E7%99%BD%E6%94%BE%E5%BF%83%E9%A3%9F%E7%94%A8%E7%89%88%EF%BC%89/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/%E9%AB%98%E8%BE%BE%E5%A4%B4%E5%83%8F.png">
+      <meta itemprop="name" content="TUUG">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="TUUG个人主页">
+      <meta itemprop="description" content="心有所向，无问西东">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="本地部署Graphhopper实现离线地图路径规划功能（小白放心食用版） | TUUG个人主页">
+      <meta itemprop="description" content="介绍了在本地使用Graphhopper，从而实现离线获取两点之间路径的办法。">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          本地部署Graphhopper实现离线地图路径规划功能（小白放心食用版）
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2024-05-06 19:52:17 / 修改时间：20:28:35" itemprop="dateCreated datePublished" datetime="2024-05-06T19:52:17+08:00">2024-05-06</time>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>3k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>5 分钟</span>
+    </span>
+</div>
+
+            <div class="post-description">介绍了在本地使用Graphhopper，从而实现离线获取两点之间路径的办法。</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>最近几天一直在做一个CVRP问题，需要计算两点之间的路径距离与时间，直接采用经纬度计算直线距离会有很大的误差。正常来说，直接调用百度或者高德地图提供的API接口即可轻松实现，但是由于项目最终需要部署在内网，所以只能采用离线地图来计算路径距离。</p>
+<p>作为一个完全没接触过离线地图的小白，接到这个任务后内心是崩溃的。在找了无数的教程、看了无数的文档、踩了无数的坑之后，终于实现了这一功能，必须记录一下。</p>
+<p>首先是工具与技术路线的选择，作为小白，经过一通搜索后，下载了无数的软件后，终于明白了，要做到离线路径规划或者导航，必须要有两要素。首先是地图数据（一般是地图瓦片，格式为jpg或者png，这里必须注意百度地图瓦片编号与高德地图瓦片编号规则是不同的！！！）以及路网数据（一般为pbf等格式），然后是本地服务（就是根据地图数据实现路径规划的算法等服务）。确定好需要的工具以及数据后，咱们直接开始！</p>
+<h2 id="操作步骤"><a href="#操作步骤" class="headerlink" title="操作步骤"></a>操作步骤</h2><h3 id="地图"><a href="#地图" class="headerlink" title="地图"></a>地图</h3><p>地图数据去这里<a target="_blank" rel="noopener" href="https://www.openstreetmap.org/%E6%88%96%E8%80%85%E8%BF%99%E9%87%8C[Geofabrik">https://www.openstreetmap.org/或者这里[Geofabrik</a> Download Server](<a target="_blank" rel="noopener" href="https://download.geofabrik.de/)%E4%B8%8B%E8%BD%BD%E3%80%82%E6%AF%94%E5%A6%82%E6%88%91%E9%9C%80%E8%A6%81%E6%B5%99%E6%B1%9F%E7%9C%81%E7%9A%84%E5%9C%B0%E5%9B%BE%E8%B7%AF%E7%BD%91%E6%95%B0%E6%8D%AE%EF%BC%8C%E5%B0%B1%E4%B8%8B%E8%BD%BD%E4%B8%80%E4%B8%AA%E5%90%8D%E4%B8%BA%E2%80%99zhejiang-latest.osm.pbf%E2%80%98%E7%9A%84%E6%96%87%E4%BB%B6%E3%80%82%E8%BF%99%E9%87%8C%E4%B9%9F%E5%8F%AF%E4%BB%A5%E5%9C%A8%E6%AD%A4%E4%B8%8B%E8%BD%BD%E6%B5%99%E6%B1%9F%E7%9C%81%E5%9C%B0%E5%9B%BE%E6%95%B0%E6%8D%AE%E3%80%82">https://download.geofabrik.de/)下载。比如我需要浙江省的地图路网数据，就下载一个名为’zhejiang-latest.osm.pbf‘的文件。这里也可以在此下载浙江省地图数据。</a></p>
+<h3 id="搭建本地服务（window环境）"><a href="#搭建本地服务（window环境）" class="headerlink" title="搭建本地服务（window环境）"></a>搭建本地服务（window环境）</h3><p>地图准备好后，就需要搭建我们本地的服务了。这里注意，搭建本地服务需要准备好我们的本地环境，因我Graphhopper是基于java开发的，因此我们需要下载<strong>Java JDK</strong>，从Oracle官网下载并安装JDK，并配置好环境变量。然后是maven，同样下载安装配置环境变量，可以参考<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_42006801/article/details/115640020">Maven安装与配置（详细步骤）_apachemaven安装与配置_liyitongxue的博客-CSDN博客</a>。</p>
+<h3 id="下载Graphhopper"><a href="#下载Graphhopper" class="headerlink" title="下载Graphhopper"></a>下载Graphhopper</h3><p>然后我们可以开始下载Graphhopper，这里可以直接在GitHub搜索Graphhopper即可。</p>
+<p><img src="/..%5Cimages%5Cac2d62d546e648f9a608f0b487bc035e.png" alt="在这里插入图片描述"></p>
+<p>这里建议<strong>不要</strong>直接克隆master分支，可以选择<strong>stable</strong>分支（踩了好多坑之后，才发现master分支好像没有graphhopper.sh文件，这个文件在后面很重要！）</p>
+<p><img src="/../images/c89e702ea5bf4b46af6f490fa46fbad9.png" alt="在这里插入图片描述"></p>
+<p>将该分支克隆到本地之后，会发现里面有一个文件名为config-example.yml的文件，采用文本编辑器打开，将文件开头数据修改成自己的文件路径，端口选择8989端口。<br><img src="/../images/f31c651486a9435fa42f660df98c3db4.png" alt="在这里插入图片描述"></p>
+<p>到这里有些教程会让你直接在命令行执行以下命令构建路网数据，生成索引文件：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./graphhopper.sh build</span><br></pre></td></tr></table></figure>
+
+<p>然后执行</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./graphhopper.sh web</span><br></pre></td></tr></table></figure>
+
+<p>然后是打开网址<a href="http://127.0.0.1:8989即可。">http://127.0.0.1:8989即可。</a></p>
+<p>但是对于像我这样的小白，这里可能会遇到很多问题，这里我们逐一展开解决（每一个都是让人心态崩溃的坑）。</p>
+<h3 id="坑1-本地服务问题"><a href="#坑1-本地服务问题" class="headerlink" title="坑1-本地服务问题"></a>坑1-本地服务问题</h3><p>首先是本地服务问题，一般直接在浏览器里输入<a href="http://127.0.0.1:8989是会显示拒绝访问，这里的域名是本地服务器,这一般是由于没安装IIS服务。解决方法很简单：在控制面板/程序/启用或关闭Windows功能中选择以下两项安装。将两项全点上就行。如果输入ip地址http://127.0.0.1显示以下界面，就算是跳出这个坑了。">http://127.0.0.1:8989是会显示拒绝访问，这里的域名是本地服务器,这一般是由于没安装IIS服务。解决方法很简单：在控制面板/程序/启用或关闭Windows功能中选择以下两项安装。将两项全点上就行。如果输入ip地址http://127.0.0.1显示以下界面，就算是跳出这个坑了。</a><br><img src="/../images/0177ed1aa0c949d79299f093a54f223b.png" alt="在这里插入图片描述"><br><img src="/../images/3587bb7a924949f98ad55730f4b02f1d.png" alt="在这里插入图片描述"></p>
+<h3 id="坑2-cygwin问题"><a href="#坑2-cygwin问题" class="headerlink" title="坑2-cygwin问题"></a>坑2-cygwin问题</h3><p>下一个坑是Cygwin，这里同样是下载安装。<a target="_blank" rel="noopener" href="https://blog.csdn.net/hu_yinghui/article/details/125263154">windows下安装Cygwin详细教程_快乐小胡！的博客-CSDN博客</a></p>
+<h3 id="坑3-wget问题"><a href="#坑3-wget问题" class="headerlink" title="坑3-wget问题"></a>坑3-wget问题</h3><p>如果到这里还是显示8989端口拒绝访问，可能是wget没有下载安装。这里的wget是linux里面的下载工具，我们在windows下可以搜索wget for windows下载安装。<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/28826000">Wget for windows——优雅地实现批量下载 - 知乎 (zhihu.com)</a></p>
+<h3 id="本地服务，启动！"><a href="#本地服务，启动！" class="headerlink" title="本地服务，启动！"></a>本地服务，启动！</h3><p>解决完以上问题之后，终于可以进行搭建我们自己的本地服务了。但是如果还是按照有些教程上进入graphhopper根目录后输入</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./graphhopper.sh build</span><br></pre></td></tr></table></figure>
+
+<p>还是会出现问题，会跳出以下窗口，几十秒后又会自动关闭。</p>
+<p>这行命令的作用是：下载所需的依赖，构建GraphHopper的路网数据，并生成索引文件。经过多方查找资料，发现应该输入</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">先进入到graphhopper目录下,再执行以下语句</span></span><br><span class="line">./graphhopper.sh -a web -i china-latest.osm.pbf</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">china-latest.osm.pdf是下载的路图</span></span><br></pre></td></tr></table></figure>
+
+<p>跳出以下界面则配置完成</p>
+<p><img src="/../images/9eda1b49f747438e8bfd090470baedbe.png" alt="在这里插入图片描述"><br>如果报以下错误</p>
+<p><code>-bash: ./graphhopper.sh: /bin/bash^M: bad interpreter: No such file or directory</code></p>
+<p>可以尝试使用以下方式进行解决</p>
+<p><code>sed -i &#39;s/\r$//&#39; ./graphhopper.sh #解决linux 跟Windows 对于换行符不同的区别</code></p>
+<p>如果不成功可能是因为解析的地图数据过大导致内存溢出发生错误：<br>可以在执行启动之前先扩大内存</p>
+<p><code>export JAVA_OPTS=&quot;-Xmx4g -Xms4g&quot;#加大至4G内存</code></p>
+<h2 id="最终效果"><a href="#最终效果" class="headerlink" title="最终效果"></a>最终效果</h2><p>到此，所有操作全部完成，在浏览器输入<a href="http://127.0.0.1:8989即可进入以下网页，进行路径规划。">http://127.0.0.1:8989即可进入以下网页，进行路径规划。</a></p>
+<p>也可以通过python调用本地服务器接口，将结果传入python程序，进行后续一系列操作。<br><img src="/../images/87a27c28e3a54dae905273dfc1747aed.png" alt="在这里插入图片描述"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line">url = <span class="string">&#x27;http://127.0.0.1:8989/route?point=27.939648,120.934602&amp;point=27.936577,120.931941&amp;profile=car&amp;layer=OpenStreetMap&#x27;</span></span><br><span class="line">response = requests.get(url)  </span><br><span class="line">info = response.json()[<span class="string">&#x27;paths&#x27;</span>][<span class="number">0</span>]</span><br><span class="line"><span class="built_in">print</span>(info)  <span class="comment"># 获取json</span></span><br><span class="line"><span class="comment"># print(info[&#x27;distance&#x27;])  # 获取路径距离,单位为米</span></span><br><span class="line"><span class="comment"># print(info[&#x27;time&#x27;])  # 获取路径时间，单位为毫秒</span></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">round</span>(info[<span class="string">&#x27;distance&#x27;</span>]/<span class="number">1000</span>,<span class="number">2</span>))  <span class="comment"># 单位转为千米</span></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">round</span>(info[<span class="string">&#x27;time&#x27;</span>]/(<span class="number">60</span>*<span class="number">1000</span>),<span class="number">0</span>))  <span class="comment"># 单位转为分钟</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6955757106750292004">本地百度瓦片+GraphHopper搭建离线路径规划 - 掘金 (juejin.cn)</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/wml00000/article/details/84030182">基于Leaflet和GraphHopper实现离线路径规划_graphhooper_wml00000的博客-CSDN博客</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/wml00000/article/details/84108694">基于GraphHopper搭建离线路径规划服务并可视化_graph 路径规划_wml00000的博客-CSDN博客</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/Sysdark/article/details/111298945">离线路径规划服务Graphhopper_RobotMartin的博客-CSDN博客</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_42006801/article/details/115640020">Maven安装与配置（详细步骤）_apachemaven安装与配置_liyitongxue的博客-CSDN博客</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_42006801/article/details/115640020">Maven安装与配置（详细步骤）_apachemaven安装与配置_liyitongxue的博客-CSDN博客</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/read/cv22391502/">实现离线地图导航第一步！windows本地搭建GraphHopper服务 - 哔哩哔哩 (bilibili.com)</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>请我一杯咖啡吧！</div>
+  <button>
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.png" alt="TUUG 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/images/alipay.png" alt="TUUG 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/%E8%BD%A6%E8%BE%86%E8%B7%AF%E5%BE%84%E8%A7%84%E5%88%92/" rel="tag"># 车辆路径规划</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2024/05/06/%E8%B5%84%E6%BA%90%E5%8F%97%E9%99%90%E9%A1%B9%E7%9B%AE%E8%B0%83%E5%BA%A6%E7%A8%8B%E5%BA%8FRCPSP/" rel="prev" title="资源受限项目调度程序RCPSP">
+                  <i class="fa fa-angle-left"></i> 资源受限项目调度程序RCPSP
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">TUUG</span>
+  </div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+<!-- 网站运行时间的设置 -->
+<span id="timeDate">载入天数...</span>
+<span id="times">载入时分秒...</span>
+<script>
+    var now = new Date();
+    function createtime() {
+        var grt= new Date("05/04/2024 10:00:00"); //此处修改你的建站时间或者网站上线时间
+        now.setTime(now.getTime()+250);
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days);
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours);
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;}
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;}
+        document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 ";
+        document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒.";
+    }
+setInterval("createtime()",250);
+</script>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+
+  <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+  
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true}});</script></body>
+</html>
