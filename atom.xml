@@ -2,11 +2,11 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>TUUG个人主页</title>
   
-  <subtitle>成为你想成为的人</subtitle>
+  <subtitle>与理想平等交易，与喧嚣保持距离</subtitle>
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2024-05-12T02:58:56.136Z</updated>
+  <updated>2024-05-20T09:15:44.628Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -15,6 +15,23 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>市井烟火气，甚抚凡人心</title>
+    <link href="http://example.com/2024/05/13/%E5%B8%82%E4%BA%95%E7%83%9F%E7%81%AB%E6%B0%94%EF%BC%8C%E7%94%9A%E6%8A%9A%E5%87%A1%E4%BA%BA%E5%BF%83/"/>
+    <id>http://example.com/2024/05/13/%E5%B8%82%E4%BA%95%E7%83%9F%E7%81%AB%E6%B0%94%EF%BC%8C%E7%94%9A%E6%8A%9A%E5%87%A1%E4%BA%BA%E5%BF%83/</id>
+    <published>2024-05-13T02:01:52.265Z</published>
+    <updated>2024-05-20T09:15:44.628Z</updated>
+    
+    
+    <summary type="html">慢品人间烟火色，闲观人间岁月长</summary>
+    
+    
+    
+    
+    <category term="随便写写" scheme="http://example.com/tags/%E9%9A%8F%E4%BE%BF%E5%86%99%E5%86%99/"/>
+    
+  </entry>
   
   <entry>
     <title>列生成算法简介</title>
