@@ -335,4 +335,23 @@
         <tag>随便写写</tag>
       </tags>
   </entry>
+  <entry>
+    <title>灰靶决策</title>
+    <url>/2024/06/01/%E7%81%B0%E9%9D%B6%E5%86%B3%E7%AD%96/</url>
+    <content><![CDATA[<h1 id="多目标加权智能灰靶决策模型"><a href="#多目标加权智能灰靶决策模型" class="headerlink" title="多目标加权智能灰靶决策模型"></a>多目标加权智能灰靶决策模型</h1><h2 id="1-灰色决策模型"><a href="#1-灰色决策模型" class="headerlink" title="1. 灰色决策模型"></a>1. 灰色决策模型</h2><p><strong>定义1</strong> 事件、对策、目标、效果称为灰色决策四要素.</p>
+<p><strong>定义2</strong> 设$A&#x3D;{a_1,a_2,\cdots,a_n}$为研究范围内事件的全体，称为该研究范围内的事件集，$a_i(i&#x3D;1,2,\cdots,n)$为第$i$个事件，所有可能对策全体称为对策集，记作$B&#x3D;{b_1,b_2,\cdots,b_m}$，其中$b_j(j&#x3D;1,2,\cdots,m)$为第$j$种对策.</p>
+<p><strong>定义3</strong> 事件集A与对策集B的乘积$A\times B &#x3D; {(a_i,b_j)|a_i\in A,b_j\in B}$称为决策方案集，记作$S&#x3D; A\times B$.对于任意$a_i \in A, b_j \in B$，称$(a_i,b_j)$为一个决策方案，记作$s_{ij}&#x3D;(a_i,b_j)$.</p>
+<p><strong>定义4</strong> 设$$U^{(k)}&#x3D;(u_{ij}^{(k)})&#x3D;\begin{bmatrix}u_{11}^{(k)}&amp;\dots&amp;u_{1m}^{(k)}\\vdots&amp;\ddots&amp;\vdots\u_{1n}^{(k)}&amp;\dots&amp;u_{nm}^{(k)}\end{bmatrix}$$为决策方案集$S$在目标下的效果样本矩阵.</p>
+<ol>
+<li>设$k$为效益型目标,希望目标效果的样本值越大越优.$k$目标下的灰靶为$u_{ij}^{(k)}\in[u_{i_0j_0}^{(k)},\max_i\max_j{u_{ij}^{(k)}}]$即$u_{i_0j_0}^{(k)}$为k目标的效果临界值,称$r_{ij}^{(k)}&#x3D;\frac{u_{ij}^{(k)}-u_{i_0j_0}^{(k)}}{\max_i\max_j{u_{ij}^{(k)}}-u_{i_0j_0}^{(k)}}$为效益型目标效果测度函数.</li>
+<li>设$k$为成本型目标，希望目标效果的样本值越小越优.设$k$目标下的灰靶为$u_{ij}^{(k)}\in[u_{i_0j_0}^{(k)},\min_i\min_j{u_{ij}^{(k)}}]$即$u_{i_0j_0}^{(k)}$为k目标的效果临界值,称$r_{ij}^{(k)}&#x3D;\frac{u_{i_0j_0}^{(k)}-u_{ij}^{(k)}}{u_{i_0j_0}^{(k)}-\min_i\min_j{u_{ij}^{(k)}}}$为成本型目标效果测度函数.</li>
+<li>设$k$为适中型目标,希望目标效果的样本值越 接近一个适中值$A$越优.设$k$目标下的灰靶为$u_{ij}^{(k)}\in[A-u_{i_0j_0}^{(k)},A+u_{i_0j_0}^{(k)}]$即$A-u_{i_0j_0}^{(k)}$，$A+u_{i_0j_0}^{(k)}$，分别为k目标下的下限效果临界值和上限效果临界值.</li>
+</ol>
+<p>​        ① 当$u_{ij}^{(k)}\in[A-u_{i_0j_0}^{(k)},A]$时，称$r_{ij}^{(k)}&#x3D;\frac{u_{ij}^{(k)}-A+u_{i_0j_0}^{(k)}}{u_{i_0j_0}^{(k)}}$为适中型目标下限效果测度函数;</p>
+<p>​        ②当$u_{ij}^{(k)}\in[A,A+u_{i_0j_0}^{(k)}]$时，称$r_{ij}^{(k)}&#x3D;\frac{A+u_{ij}^{(k)}-u_{i_0j_0}^{(k)}}{u_{i_0j_0}^{(k)}}$为适中型目标上限效果测度函数;</p>
+]]></content>
+      <tags>
+        <tag>学习</tag>
+      </tags>
+  </entry>
 </search>
