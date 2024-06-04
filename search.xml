@@ -349,9 +349,15 @@
 </ol>
 <p>​        ① 当$u_{ij}^{(k)}\in[A-u_{i_0j_0}^{(k)},A]$时，称$r_{ij}^{(k)}&#x3D;\frac{u_{ij}^{(k)}-A+u_{i_0j_0}^{(k)}}{u_{i_0j_0}^{(k)}}$为适中型目标下限效果测度函数;</p>
 <p>​        ②当$u_{ij}^{(k)}\in[A,A+u_{i_0j_0}^{(k)}]$时，称$r_{ij}^{(k)}&#x3D;\frac{A+u_{ij}^{(k)}-u_{i_0j_0}^{(k)}}{u_{i_0j_0}^{(k)}}$为适中型目标上限效果测度函数;</p>
+<p><strong>定义5</strong>  当$k$目标效果值$r_{ij}^k\in[0,1]$时,称$k$目标中靶,$k$目标为加分因素;当$k$目标效果值$r_{ij}^k\in[-1,0]$时,称$k$目标脱靶,$k$目标为减分因素.</p>
+<p><strong>定义6</strong> 设$\eta_k(k&#x3D;1,2,\cdots,s)$为目标$k$的决策权，$\sum_{k&#x3D;1}^s\eta_k&#x3D;1$，称$R^{(k)}&#x3D;(r_{ij}^{(k)})&#x3D;\begin{bmatrix}r_{11}^{(k)}&amp;\dots&amp;r_{1m}^{(k)}\\vdots&amp;\ddots&amp;\vdots\r_{1n}^{(k)}&amp;\dots&amp;r_{nm}^{(k)}\end{bmatrix}$为决策方案集S在k目标下的一致效果测度矩阵.对于$s_{ij}\in S$,称$r_{ij}&#x3D;\sum_{k&#x3D;1}^s\eta_kr_{ij}^{(k)}$为决策方案的综合效果测度函数，同时也称$R&#x3D;(r_{ij})&#x3D;\begin{bmatrix}r_{11}&amp;\dots&amp;r_{1m}\\vdots&amp;\ddots&amp;\vdots\\r_{1n}&amp;\dots&amp;r_{nm}\end{bmatrix}$为综合效果测度矩阵.</p>
+<p>**定义7 ** 若$\max_{1\leqslant j\leqslant m}{r_{ij}}&#x3D;r_{ij_0}$则称$b_{j_0}$为事件$a_i$的最优对策；若$\max_{1\leqslant j\leqslant n}{r_{ij}}&#x3D;r_{i_0j}$则称$a_{i_0}$为事件$b_j$的最优事件；若$\max_{1\leqslant i\leqslant n}\max_{1\leqslant j\leqslant m}{r_{ij}}&#x3D;r_{i_0j_0}$则称$s_{i_0j_0}$为最优局势即方案.</p>
+<h2 id="2-多目标加权智能灰靶决策模型的建模流程"><a href="#2-多目标加权智能灰靶决策模型的建模流程" class="headerlink" title="2. 多目标加权智能灰靶决策模型的建模流程"></a>2. 多目标加权智能灰靶决策模型的建模流程</h2><p>详细的多目标加权智能灰靶决策模型的建模算法流程如图所示.</p>
+<img src="../images/image-20240601142847658.png" alt="image-20240601142847658" style="zoom: 67%;" />
+
 ]]></content>
       <tags>
-        <tag>学习</tag>
+        <tag>灰色系统</tag>
       </tags>
   </entry>
 </search>
