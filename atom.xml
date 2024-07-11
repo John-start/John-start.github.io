@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2024-06-01T06:48:02.343Z</updated>
+  <updated>2024-07-05T05:54:53.823Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -15,6 +15,23 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>遗传算法求解带约束优化问题的处理办法</title>
+    <link href="http://example.com/2024/07/04/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95%E6%B1%82%E8%A7%A3%E5%B8%A6%E7%BA%A6%E6%9D%9F%E4%BC%98%E5%8C%96%E9%97%AE%E9%A2%98%E7%9A%84%E5%A4%84%E7%90%86%E5%8A%9E%E6%B3%95/"/>
+    <id>http://example.com/2024/07/04/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95%E6%B1%82%E8%A7%A3%E5%B8%A6%E7%BA%A6%E6%9D%9F%E4%BC%98%E5%8C%96%E9%97%AE%E9%A2%98%E7%9A%84%E5%A4%84%E7%90%86%E5%8A%9E%E6%B3%95/</id>
+    <published>2024-07-04T10:13:05.458Z</published>
+    <updated>2024-07-05T05:54:53.823Z</updated>
+    
+    
+    <summary type="html">针对含约束的优化问题的处理手段</summary>
+    
+    
+    
+    
+    <category term="启发算法" scheme="http://example.com/tags/%E5%90%AF%E5%8F%91%E7%AE%97%E6%B3%95/"/>
+    
+  </entry>
   
   <entry>
     <title>灰靶决策</title>
