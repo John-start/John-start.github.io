@@ -29,7 +29,7 @@
 <meta property="og:image" content="http://example.com/images/TSP%E7%BB%93%E6%9E%9C%E5%B1%95%E7%A4%BA2.png">
 <meta property="og:image" content="http://example.com/images/TSP%E7%BB%93%E6%9E%9C%E5%B1%95%E7%A4%BA-1720692249354.png">
 <meta property="article:published_time" content="2024-07-11T09:26:11.268Z">
-<meta property="article:modified_time" content="2024-07-11T10:05:43.358Z">
+<meta property="article:modified_time" content="2024-07-12T02:57:15.013Z">
 <meta property="article:author" content="TUUG">
 <meta property="article:tag" content="车辆路径规划">
 <meta name="twitter:card" content="summary">
@@ -146,7 +146,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#2-%E8%BF%90%E8%A1%8CDocker"><span class="nav-number">1.</span> <span class="nav-text">2. 运行Docker</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-%E5%86%85%E5%AE%B9%E6%BA%A2%E5%87%BA%E9%97%AE%E9%A2%98"><span class="nav-number">2.</span> <span class="nav-text">3. 内容溢出问题</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E6%9C%AC%E5%9C%B0%E5%9C%B0%E5%9B%BE%E6%9C%8D%E5%8A%A1"><span class="nav-number">3.</span> <span class="nav-text">使用本地地图服务</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#TSP%E9%A1%B9%E7%9B%AE"><span class="nav-number">3.1.</span> <span class="nav-text">TSP项目</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%AB%A0"><span class="nav-number">4.</span> <span class="nav-text">参考文章</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#2-%E8%BF%90%E8%A1%8CDocker"><span class="nav-number">1.</span> <span class="nav-text">2. 运行Docker</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-%E5%86%85%E5%AD%98%E6%BA%A2%E5%87%BA%E9%97%AE%E9%A2%98"><span class="nav-number">2.</span> <span class="nav-text">3. 内存溢出问题</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E6%9C%AC%E5%9C%B0%E5%9C%B0%E5%9B%BE%E6%9C%8D%E5%8A%A1"><span class="nav-number">3.</span> <span class="nav-text">使用本地地图服务</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#TSP%E9%A1%B9%E7%9B%AE"><span class="nav-number">3.1.</span> <span class="nav-text">TSP项目</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%AB%A0"><span class="nav-number">4.</span> <span class="nav-text">参考文章</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -161,13 +161,13 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">12</span>
+          <span class="site-state-item-count">13</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-count">12</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -245,9 +245,15 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
-      
 
-      <time title="创建时间：2024-07-11 17:26:11 / 修改时间：18:05:43" itemprop="dateCreated datePublished" datetime="2024-07-11T17:26:11+08:00">2024-07-11</time>
+      <time title="创建时间：2024-07-11 17:26:11" itemprop="dateCreated datePublished" datetime="2024-07-11T17:26:11+08:00">2024-07-11</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-07-12 10:57:15" itemprop="dateModified" datetime="2024-07-12T10:57:15+08:00">2024-07-12</time>
     </span>
 
   
@@ -296,7 +302,7 @@
 <h1 id="2-运行Docker"><a href="#2-运行Docker" class="headerlink" title="2. 运行Docker"></a>2. 运行Docker</h1><p>在下载好地图数据后可以进行该操作。例如，我的地图数据存储在”D:\open_street_map\china-latest.osm.pbf”</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -p 8989:8989 -v D:\/open_street_map:/graphhopper/mapdata  israelhikingmap/graphhopper --input mapdata/china-latest.osm.pbf --host 0.0.0.0</span><br></pre></td></tr></table></figure>
 
-<h1 id="3-内容溢出问题"><a href="#3-内容溢出问题" class="headerlink" title="3. 内容溢出问题"></a>3. 内容溢出问题</h1><p>因为地图数据很大，所以可能出现内存相关报错。这时可以多分配一些内存。加上-e JAVA_OPTS&#x3D;”-Xmx4g -Xms4g”即可。</p>
+<h1 id="3-内存溢出问题"><a href="#3-内存溢出问题" class="headerlink" title="3. 内存溢出问题"></a>3. 内存溢出问题</h1><p>因为地图数据很大，所以可能出现内存相关报错。这时可以多分配一些内存。加上-e JAVA_OPTS&#x3D;”-Xmx4g -Xms4g”即可。</p>
 <h1 id="使用本地地图服务"><a href="#使用本地地图服务" class="headerlink" title="使用本地地图服务"></a>使用本地地图服务</h1><p>经过上述步骤之后，本地服务即可成功运行。打开浏览器地址栏输入‘<a target="_blank" rel="noopener" href="http://localhost:8989/maps/?profile=car)%E2%80%99%E5%90%8E%E5%8D%B3%E5%8F%AF%E4%BD%BF%E7%94%A8%E8%AF%A5%E6%9C%8D%E5%8A%A1%E3%80%82">http://localhost:8989/maps/?profile=car)’后即可使用该服务。</a></p>
 <p>有了这样的一个本地服务之后，有哪些玩法呢？</p>
 <h2 id="TSP项目"><a href="#TSP项目" class="headerlink" title="TSP项目"></a>TSP项目</h2><p>可以做一个本地的旅游路线规划求解器。通过这样一个函数即可获取两点之间的实际路径距离。</p>
@@ -331,6 +337,9 @@
                 </a>
             </div>
             <div class="post-nav-item">
+                <a href="/2024/07/12/%E9%92%A2%E9%93%81%E9%9B%84%E5%BF%834%E9%99%86%E5%86%9B%E6%AD%A6%E5%99%A8%E4%B8%8E%E7%BC%96%E5%88%B6%E8%AE%BE%E8%AE%A1/" rel="next" title="钢铁雄心4陆军装备与编制设计参考">
+                  钢铁雄心4陆军装备与编制设计参考 <i class="fa fa-angle-right"></i>
+                </a>
             </div>
           </div>
     </footer>

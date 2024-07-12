@@ -538,7 +538,7 @@
 <h1 id="2-运行Docker"><a href="#2-运行Docker" class="headerlink" title="2. 运行Docker"></a>2. 运行Docker</h1><p>在下载好地图数据后可以进行该操作。例如，我的地图数据存储在”D:\open_street_map\china-latest.osm.pbf”</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker run -p 8989:8989 -v D:\/open_street_map:/graphhopper/mapdata  israelhikingmap/graphhopper --input mapdata/china-latest.osm.pbf --host 0.0.0.0</span><br></pre></td></tr></table></figure>
 
-<h1 id="3-内容溢出问题"><a href="#3-内容溢出问题" class="headerlink" title="3. 内容溢出问题"></a>3. 内容溢出问题</h1><p>因为地图数据很大，所以可能出现内存相关报错。这时可以多分配一些内存。加上-e JAVA_OPTS&#x3D;”-Xmx4g -Xms4g”即可。</p>
+<h1 id="3-内存溢出问题"><a href="#3-内存溢出问题" class="headerlink" title="3. 内存溢出问题"></a>3. 内存溢出问题</h1><p>因为地图数据很大，所以可能出现内存相关报错。这时可以多分配一些内存。加上-e JAVA_OPTS&#x3D;”-Xmx4g -Xms4g”即可。</p>
 <h1 id="使用本地地图服务"><a href="#使用本地地图服务" class="headerlink" title="使用本地地图服务"></a>使用本地地图服务</h1><p>经过上述步骤之后，本地服务即可成功运行。打开浏览器地址栏输入‘<a href="http://localhost:8989/maps/?profile=car)%E2%80%99%E5%90%8E%E5%8D%B3%E5%8F%AF%E4%BD%BF%E7%94%A8%E8%AF%A5%E6%9C%8D%E5%8A%A1%E3%80%82">http://localhost:8989/maps/?profile=car)’后即可使用该服务。</a></p>
 <p>有了这样的一个本地服务之后，有哪些玩法呢？</p>
 <h2 id="TSP项目"><a href="#TSP项目" class="headerlink" title="TSP项目"></a>TSP项目</h2><p>可以做一个本地的旅游路线规划求解器。通过这样一个函数即可获取两点之间的实际路径距离。</p>
@@ -555,6 +555,73 @@
 ]]></content>
       <tags>
         <tag>车辆路径规划</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>钢铁雄心4陆军装备与编制设计参考</title>
+    <url>/2024/07/12/%E9%92%A2%E9%93%81%E9%9B%84%E5%BF%834%E9%99%86%E5%86%9B%E6%AD%A6%E5%99%A8%E4%B8%8E%E7%BC%96%E5%88%B6%E8%AE%BE%E8%AE%A1/</url>
+    <content><![CDATA[<h1 id="陆军装备与编制设计参考"><a href="#陆军装备与编制设计参考" class="headerlink" title="陆军装备与编制设计参考"></a>陆军装备与编制设计参考</h1><h3 id="1-1-陆军装备设计"><a href="#1-1-陆军装备设计" class="headerlink" title="1.1 陆军装备设计"></a>1.1 陆军装备设计</h3><h4 id="1-1-1-中型主力坦克"><a href="#1-1-1-中型主力坦克" class="headerlink" title="1.1.1 中型主力坦克"></a>1.1.1 中型主力坦克</h4><ul>
+<li>炮的类型取决于对人员或者装甲杀伤的需求，装甲设计商前期选择加数量的后期有条件就加质量，加几层装甲看产能和资源</li>
+<li><img src="/../images/image-20240712110809613.png" alt="image-20240712110809613"></li>
+<li>（中型主力坦克设计参考，图在备注上方）</li>
+</ul>
+<h4 id="1-1-2-中型喷火坦克"><a href="#1-1-2-中型喷火坦克" class="headerlink" title="1.1.2 中型喷火坦克"></a>1.1.2 中型喷火坦克</h4><ul>
+<li>一般用于中型喷火坦克连。中型喷火坦克连为步兵及摩托化&#x2F;机械化步兵（营级单位）提供一定的突破加成，且为师提供系列地形攻击加成。中型喷火坦克主要用于提供地形加成，可以牺牲数值以压低成本。</li>
+<li><img src="/../images/image-20240712110829274.png" alt="image-20240712110829274"></li>
+<li>（中型喷火坦克设计参考，图在备注上方）</li>
+<li><img src="../images/image-20240712110840501.png" alt="image-20240712110840501" style="zoom:67%;" /></li>
+<li>（中型喷火坦克支援连加成参考，图在备注上方）</li>
+</ul>
+<h4 id="1-1-3-轻型坦克"><a href="#1-1-3-轻型坦克" class="headerlink" title="1.1.3 轻型坦克"></a>1.1.3 轻型坦克</h4><ul>
+<li>主要用于装甲支援连，装甲支援连为坦克及衍生装甲车辆（营级单位）提供对装甲杀伤加成，且为师提供系列地形移动加成。轻型坦克在用于装甲支援连时主要提供地形加成，可以牺牲数值以压低成本。</li>
+<li><img src="/../images/image-20240712110858596.png" alt="image-20240712110858596"></li>
+<li>（轻型坦克设计参考，图在备注上方）</li>
+<li><img src="../images/image-20240712110909445.png" alt="image-20240712110909445" style="zoom:67%;" /></li>
+<li>（装甲侦察连加成参考，图在备注上方）</li>
+</ul>
+<h3 id="1-2-陆军编制参考"><a href="#1-2-陆军编制参考" class="headerlink" title="1.2 陆军编制参考"></a>1.2 陆军编制参考</h3><ul>
+<li>主力师战斗宽度达到 35 或 36 宽，HP300 左右，支援连通常带工兵连、后勤连、中型喷火坦克连、野战医院、装甲侦察连，对抗普通 AI 可用轻型装甲侦察连</li>
+</ul>
+<h4 id="1-2-1-有制空权陆军主力师"><a href="#1-2-1-有制空权陆军主力师" class="headerlink" title="1.2.1 有制空权陆军主力师"></a>1.2.1 有制空权陆军主力师</h4><ul>
+<li><img src="/../images/image-20240712110930519.png" alt="image-20240712110930519"></li>
+<li>优火 10 步兵 8 中坦克，图在备注上方</li>
+<li><img src="/../images/image-20240712110940849.png" alt="image-20240712110940849"></li>
+<li>美苏德高达师 9 坦 9 机或者 10 坦 8 机，图在备注上方</li>
+<li><img src="/../images/image-20240712110953200.png" alt="image-20240712110953200"></li>
+<li>人海左线 11 步 9 坦，图在备注上方</li>
+<li><img src="/../images/image-20240712111001430.png" alt="image-20240712111001430"></li>
+<li>人海左线 12 步 8 坦，图在备注上方</li>
+</ul>
+<h4 id="1-2-2-无制空权陆军主力师"><a href="#1-2-2-无制空权陆军主力师" class="headerlink" title="1.2.2 无制空权陆军主力师"></a>1.2.2 无制空权陆军主力师</h4><ul>
+<li><img src="/../images/image-20240712111019958.png" alt="image-20240712111019958"></li>
+<li>9 步 8 坦 2 防空，图在备注上方</li>
+</ul>
+<h4 id="1-2-3-小国主力师"><a href="#1-2-3-小国主力师" class="headerlink" title="1.2.3 小国主力师"></a>1.2.3 小国主力师</h4><ul>
+<li>早战，工业能力不足，考虑人海左线，由步兵、常规炮兵、防空炮组成</li>
+<li><img src="/../images/image-20240712111143501.png" alt="image-20240712111143501"></li>
+<li>步、炮、防空，图在备注上方</li>
+</ul>
+<h4 id="1-2-4-天线宝宝（填线炮灰师）"><a href="#1-2-4-天线宝宝（填线炮灰师）" class="headerlink" title="1.2.4 天线宝宝（填线炮灰师）"></a>1.2.4 天线宝宝（填线炮灰师）</h4><ul>
+<li>用于迟滞对方进攻，避免对方破坏我方战线，坚守至主力师抵达即可</li>
+<li><img src="/../images/image-20240712111042165.png" alt="image-20240712111042165"></li>
+<li>纯步兵师，图在备注上方</li>
+</ul>
+<h4 id="1-2-5-海军陆战部队（两栖部队）"><a href="#1-2-5-海军陆战部队（两栖部队）" class="headerlink" title="1.2.5 海军陆战部队（两栖部队）"></a>1.2.5 海军陆战部队（两栖部队）</h4><ul>
+<li>用于跨河（或海峡）作战、登陆行动，由两栖特种部队、坦克组成（凑宽度可加常规步兵），坦克考虑常规坦克或者特种两栖坦克</li>
+<li><img src="/../images/image-20240712111220099.png" alt="image-20240712111220099"></li>
+<li>两栖师，图在备注上方</li>
+<li><img src="/../images/image-20240712111233375.png" alt="image-20240712111233375"></li>
+<li>两栖师，图在备注上方</li>
+</ul>
+<h4 id="1-2-6-山地部队（山地步兵线右左右）"><a href="#1-2-6-山地部队（山地步兵线右左右）" class="headerlink" title="1.2.6 山地部队（山地步兵线右左右）"></a>1.2.6 山地部队（山地步兵线右左右）</h4><ul>
+<li>用于特殊地形（主要是山地、丘陵等）战斗，由山地步兵和坦克组成</li>
+<li><img src="/../images/image-20240712111245346.png" alt="image-20240712111245346"></li>
+<li>山地师，图在备注上方</li>
+</ul>
+]]></content>
+      <tags>
+        <tag>游戏</tag>
+        <tag>钢铁雄心IV</tag>
       </tags>
   </entry>
 </search>
