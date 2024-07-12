@@ -373,13 +373,188 @@
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">gen_chrom</span>(<span class="params">num_order, num_seru, data_seru</span>):</span><br><span class="line">    sequence = np.random.permutation(<span class="built_in">list</span>(<span class="built_in">range</span>(<span class="number">1</span>,num_order+<span class="number">1</span>)))</span><br><span class="line">    process_able_matrix = np.zeros([num_seru,data_seru.shape[<span class="number">1</span>]-<span class="number">1</span>])</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(num_seru):</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(data_seru.shape[<span class="number">1</span>]-<span class="number">1</span>):</span><br><span class="line">            <span class="keyword">if</span> np.isnan(data_seru.iloc[i][j+<span class="number">1</span>][<span class="number">0</span>]):</span><br><span class="line">                <span class="keyword">pass</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                process_able_matrix[i,j] = j+<span class="number">1</span></span><br><span class="line">    process_able_list = [[<span class="built_in">int</span>(value) <span class="keyword">for</span> value <span class="keyword">in</span> row <span class="keyword">if</span> value != <span class="number">0</span>] <span class="keyword">for</span> row <span class="keyword">in</span> process_able_matrix]</span><br><span class="line">    <span class="comment"># 找出所有的产品类型</span></span><br><span class="line">    product_types = <span class="built_in">set</span>()</span><br><span class="line">    <span class="keyword">for</span> machine <span class="keyword">in</span> process_able_list:</span><br><span class="line">        product_types.update(machine)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 创建一个包含每个产品类型可以在哪个机器加工的列表</span></span><br><span class="line">    product_to_machine = &#123;product: [] <span class="keyword">for</span> product <span class="keyword">in</span> product_types&#125;</span><br><span class="line">    <span class="keyword">for</span> machine_index, machine <span class="keyword">in</span> <span class="built_in">enumerate</span>(process_able_list):</span><br><span class="line">        <span class="keyword">for</span> product <span class="keyword">in</span> machine:</span><br><span class="line">            product_to_machine[product].append(machine_index+<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 按产品类型排序并转换为列表</span></span><br><span class="line">    result = [product_to_machine[product] <span class="keyword">for</span> product <span class="keyword">in</span> <span class="built_in">sorted</span>(product_to_machine)]</span><br><span class="line">    sequence = np.random.permutation(<span class="built_in">list</span>(<span class="built_in">range</span>(<span class="number">1</span>,num_order+<span class="number">1</span>)))</span><br><span class="line">    sequence_type = [data_order.iloc[i-<span class="number">1</span>][<span class="string">&#x27;product type&#x27;</span>] <span class="keyword">for</span> i <span class="keyword">in</span> sequence]</span><br><span class="line">    assign = [np.random.choice(result[sequence_type[i]-<span class="number">1</span>]) <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(num_order)]</span><br><span class="line">    x = np.concatenate([sequence, assign],axis=<span class="number">0</span>)</span><br><span class="line">    <span class="keyword">return</span> x</span><br></pre></td></tr></table></figure>
 
 <h3 id="效果比较"><a href="#效果比较" class="headerlink" title="效果比较"></a>效果比较</h3><p>使用对策2的效果</p>
-<img src="D:/MyBlog/GiteeBlog/source/images/image-20240704204405279.png" alt="image-20240704204405279" style="zoom:50%;" />
-
-<p>使用对策3的效果</p>
-<p><img src="D:/MyBlog/GiteeBlog/source/images/image-20240704204703410.png" alt="image-20240704204703410"></p>
+<p><img src="/../images/image-20240705135906932.png" alt="图片未能加载！"></p>
+<p>使用对策3的效果 </p>
+<p><img src="/../images/image-20240704204703410.png" alt="image-20240704204703410"></p>
 ]]></content>
       <tags>
         <tag>启发算法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Docker初学者指南</title>
+    <url>/2024/07/06/Docker%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</url>
+    <content><![CDATA[<p>Docker 是一个开源的平台，用于开发、发布和运行应用程序。它通过使用容器技术，使应用程序可以在任何地方以一致的方式运行。Docker 的出现极大地简化了开发、测试和部署过程。本文将介绍 Docker 的基本使用方法，帮助你快速上手。</p>
+<h1 id="Docker-介绍"><a href="#Docker-介绍" class="headerlink" title="Docker 介绍"></a>Docker 介绍</h1><p>什么是docker? </p>
+<p><strong>官方回答：</strong> Docker 是一种虚拟化技术，它将应用程序及其依赖项打包到一个称为容器的标准化单元中。与传统的虚拟机不同，Docker 容器共享主机操作系统的内核，因此更轻量、启动更快、性能更高。</p>
+<p><strong>通俗回答：</strong>开发了一个项目，可以在本机运行。比如这个项目需要依赖很多的库，如果别人的机器或者服务器想要运行这个项目就得一个个安装这些库并配置环境。工作量可能及其繁琐。但是有了docker就可以直接部署上线了。</p>
+<p>Docker的历史？</p>
+<p>诞生：2010年，一群热衷于 IT 技术的年轻人在美国成立了一家公司 dotCloud，专注于提供 PaaS（平台即服务）云计算服务。dotCloud 利用了 LXC（Linux Containers）相关的容器技术，并将其命名为 Docker。</p>
+<p>困境：Docker 刚刚诞生时，并没有引起行业的广泛关注，dotCloud 面临着生存困难。然而，团队并没有放弃，他们决定将 Docker 开源。</p>
+<p>崛起：2013年，Docker 开源。这一决定为 Docker 带来了巨大的转机。开源后，越来越多的人发现了 Docker 的优点，它逐渐在行业中火了起来。Docker 团队也开始每个月更新一个版本，以不断改进和增强这项技术。在 Docker 开源一年后，2014年4月9日，Docker 1.0 版本正式发布。这标志着 Docker 的技术达到了一个成熟的阶段，并准备好在生产环境中使用。</p>
+<p>Docker的优点？</p>
+<p>Docker 之所以如此受欢迎，主要原因在于其轻巧和高效。在容器技术出现之前，人们主要使用虚拟机技术。</p>
+<p><strong>虚拟机技术</strong>：通过软件（如 VMware）在一个物理机器上虚拟出多台虚拟机。这种方法虽然实现了资源隔离和多环境共存，但虚拟机通常非常笨重，启动和运行都需要较高的资源开销。缺点：资源占用多、冗余步骤多、启动慢。</p>
+<p><strong>容器技术</strong>：与虚拟机不同，Docker 容器更轻量级。它们共享主机的操作系统内核，而不是每个容器都有自己的操作系统。这使得 Docker 容器的启动速度极快，占用资源更少，管理更加方便。</p>
+<p>Docker 从一个默默无闻的技术到如今的行业标准，经历了初期的困境和随后的迅速崛起。它的开源战略和轻量级、高效的特性，使其在短时间内得到了广泛的认可和应用。随着 Docker 的不断发展，它已经成为现代软件开发和部署过程中不可或缺的工具。</p>
+<h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><ol>
+<li><p>Dockerfile：dockerfile 就是用来构建 docker 镜像的构建文件。 命令脚本。</p>
+</li>
+<li><p>Image&#x2F;镜像：docker镜像就好比一个模板，我们可以通过这个模板来创建容器服务。</p>
+</li>
+<li><p>Container&#x2F;容器：可以把这个容器理解为就是一个简易的linux系统。</p>
+</li>
+<li><p>Volume&#x2F;数据卷：Docker将运用与运行的环境打包形成容器运行， Docker容器产生的数据，如果不通过docker commit生成新的镜像，使得数据做为镜像的一部分保存下来， 那么当容器删除后，数据自然也就没有了。 为了能保存数据在Docker中我们使用卷。|</p>
+<p>镜像（<code>Image</code>）和容器（<code>Container</code>）的关系，就像是面向对象程序设计中的 <code>类</code> 和 <code>实例</code> 一样，镜像是静态的定义，容器是镜像运行时的实体。容器可以被创建、启动、停止、删除、暂停等。</p>
+</li>
+</ol>
+<h1 id="安装-Docker"><a href="#安装-Docker" class="headerlink" title="安装 Docker"></a>安装 Docker</h1><p>在开始使用 Docker 之前，你需要先安装它。以下是 Docker 在不同操作系统上的安装方法：</p>
+<h2 id="在-Windows-上安装-Docker"><a href="#在-Windows-上安装-Docker" class="headerlink" title="在 Windows 上安装 Docker"></a>在 Windows 上安装 Docker</h2><ol>
+<li>下载 Docker Desktop for Windows</li>
+<li>双击下载的安装程序并按照提示完成安装</li>
+<li>安装完成后，启动 Docker Desktop</li>
+</ol>
+<h2 id="在-macOS-上安装-Docker"><a href="#在-macOS-上安装-Docker" class="headerlink" title="在 macOS 上安装 Docker"></a>在 macOS 上安装 Docker</h2><ol>
+<li>下载 Docker Desktop for Mac</li>
+<li>双击下载的 DMG 文件并将 Docker 拖动到应用程序文件夹中</li>
+<li>启动 Docker Desktop</li>
+</ol>
+<h2 id="在-Linux-上安装-Docker"><a href="#在-Linux-上安装-Docker" class="headerlink" title="在 Linux 上安装 Docker"></a>在 Linux 上安装 Docker</h2><p>对于大多数 Linux 发行版，可以使用以下命令安装 Docker：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">bash复制代码sudo apt-get update</span><br><span class="line">sudo apt-get install -y docker.io</span><br><span class="line">sudo systemctl start docker</span><br><span class="line">sudo systemctl enable docker</span><br></pre></td></tr></table></figure>
+
+<h1 id="Dock-hub"><a href="#Dock-hub" class="headerlink" title="Dock hub"></a>Dock hub</h1><p>image 文件是通用的，一台机器的 image 文件拷贝到另一台机器，照样可以使用。一般来说，为了节省时间，我们应该尽量使用别人制作好的 image 文件，而不是自己制作。即使要定制，也应该基于别人的 image 文件进行加工，而不是从零开始制作。</p>
+<p>为了方便共享，image 文件制作完成后，可以上传到网上的仓库。Docker 的官方仓库 <a href="https://hub.docker.com/">Docker Hub</a> 是最重要、最常用的 image 仓库。此外，出售自己制作的 image 文件也是可以的。</p>
+]]></content>
+      <tags>
+        <tag>学习笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>On comparing interval numbers 文章阅读笔记</title>
+    <url>/2024/07/10/On%20comparing%20interval%20numbers%20%E6%96%87%E7%AB%A0%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/</url>
+    <content><![CDATA[<h1 id="On-comparing-interval-numbers-文章阅读笔记"><a href="#On-comparing-interval-numbers-文章阅读笔记" class="headerlink" title="On comparing interval numbers 文章阅读笔记"></a>On comparing interval numbers 文章阅读笔记</h1><h3 id="一、文章概述"><a href="#一、文章概述" class="headerlink" title="一、文章概述"></a>一、文章概述</h3><p>这篇文章由Atanu Sengupta和Tapan Kumar Pal撰写，主要探讨了如何在实数线上比较和排序两个区间数。区间数作为实数的一种扩展，用于表示参数的不确定性或容忍范围。文章提出了两种比较区间数的方法：一种基于价值判断指数（乐观决策者的偏好），另一种定义了严格和模糊的偏好排序（悲观决策者的视角）。</p>
+<h3 id="二、区间数的基本概念"><a href="#二、区间数的基本概念" class="headerlink" title="二、区间数的基本概念"></a>二、区间数的基本概念</h3><ol>
+<li><p><strong>区间数的表示</strong>：</p>
+<ul>
+<li>区间数 $ A $ 可以表示为 $ A &#x3D; [a_L, a_R] $，其中 $ a_L $ 和 $ a_R $ 分别是区间 $ A $ 的左极限和右极限。</li>
+<li>中点 $ m(A) &#x3D; \frac{a_L + a_R}{2} $ 和宽度 $ w(A) &#x3D; \frac{a_R - a_L}{2} $。</li>
+</ul>
+</li>
+<li><p><strong>区间数的运算</strong>：</p>
+<ul>
+<li>加法：$ A \oplus B &#x3D; [a_L + b_L, a_R + b_R] $</li>
+<li>减法：$ A \ominus B &#x3D; [a_L - b_R, a_R - b_L] $</li>
+</ul>
+</li>
+</ol>
+<h3 id="三、现有方法的回顾与讨论"><a href="#三、现有方法的回顾与讨论" class="headerlink" title="三、现有方法的回顾与讨论"></a>三、现有方法的回顾与讨论</h3><ol>
+<li><p><strong>Moore的方法</strong>：</p>
+<ul>
+<li>定义了两种传递性序关系，一种是实数线上“&lt;”的扩展，另一种是集合包含关系的扩展。但这些方法无法处理重叠区间的排序。</li>
+</ul>
+</li>
+<li><p><strong>Ishibuchi和Tanaka的方法</strong>：</p>
+<ul>
+<li>提出了两种序关系：$ \preceq_{LR} $ 和 $ \preceq_{mw} $。虽然这些方法定义了部分排序，但存在无法排序的区间对，且主要关注偏好排序而非价值排序。</li>
+</ul>
+</li>
+<li><p><strong>Kundu的方法</strong>：</p>
+<ul>
+<li>基于模糊偏好关系定义了一个排序方法，但该方法在某些情况下与理性决策者的偏好不一致。</li>
+</ul>
+</li>
+</ol>
+<h3 id="四、本文主要工作"><a href="#四、本文主要工作" class="headerlink" title="四、本文主要工作"></a>四、本文主要工作</h3><ol>
+<li><p><strong>价值判断指数（A-index）</strong>：（不是作者提出的方法）</p>
+<ul>
+<li><p>A-index是一个接受度函数，用于衡量一个区间数A在价值上是否劣于另一个区间数B。其公式为$ \mathcal{A} \ominus &#x3D; \frac{m(B) - m(A)}{w(B) + w(A)}, $，其中m表示区间的中点，w表示区间的宽度。</p>
+</li>
+<li><p>如果A(A, B) &gt; 0，则B在价值上优于A；如果0 &lt; A(A, B) &lt; 1，则表示部分接受；如果A(A, B) ≥ 1，则表示完全接受。</p>
+</li>
+<li><p>该方法既考虑了区间的中点也考虑了宽度，适用于多种决策场景，具有传递性和一致性。</p>
+</li>
+<li><p>这种方法的优点体现在<strong>example3.2.1、 example3.2.2</strong>等几个例子中。</p>
+</li>
+<li><p>对于这个指数的一个通俗理解： 一个区间的平均位置与另一个参考区间的平均位置相比，决定了前者优于后者还是劣于后者。</p>
+</li>
+<li><p>A-index可以应用于任意一对区间数的比较，而不像Ishibuchi和Tanaka的方法那样受限于$≤_{LR}\leq_{LR}≤LR$和≤mw\leq_{mw}≤mw条件的限制。</p>
+</li>
+<li><p>对于实数轴上的任意两个区间，Kundu提出的模糊左性关系在大多数情况下与A-index得出的结论相同，但存在一个例外情况：当两个区间的中点相同且宽度不同，Kundu的方法会得出A和B都是最优选择，这与直觉不符。</p>
+<p>这一方法的缺点：相较之下，乐观的决策者更倾向于使用A-index，因为他们倾向于基于期望值和平均情况进行决策，这与A-index的设计初衷更加契合。因此，A-index更适合乐观决策者的使用，而无法完全满足悲观决策者的需求。</p>
+</li>
+</ul>
+</li>
+<li><p><strong>模糊偏好排序</strong>：（基于上述方法，加入本文的创新）</p>
+<ul>
+<li>从悲观决策者的角度出发，定义了模糊集 $ B^H $ 和 $ X^H $，分别表示对区间 $ B $ 和变量区间 $ X $ 的拒绝程度。</li>
+<li>通过修改模糊集的成员函数，可以模拟不同程度悲观（或乐观）决策者的偏好模式。</li>
+</ul>
+</li>
+</ol>
+<h3 id="五、应用示例"><a href="#五、应用示例" class="headerlink" title="五、应用示例"></a>五、应用示例</h3><p>文章通过多个示例展示了如何应用这两种方法来比较和排序区间数。例如，在最大化利润的场景中，通过计算价值判断指数或模糊偏好程度，可以帮助决策者选择最优方案。</p>
+<h3 id="六、如何应用这些方法"><a href="#六、如何应用这些方法" class="headerlink" title="六、如何应用这些方法"></a>六、如何应用这些方法</h3><ol>
+<li><p><strong>理解基本概念</strong>：</p>
+<ul>
+<li>首先需要明确区间数的表示和运算规则。</li>
+</ul>
+</li>
+<li><p><strong>选择适合的方法</strong>：</p>
+<ul>
+<li>根据决策者的偏好（乐观或悲观）和问题的具体需求，选择合适的方法进行比较和排序。</li>
+</ul>
+</li>
+<li><p><strong>计算与解释</strong>：</p>
+<ul>
+<li>使用文章中的公式计算价值判断指数或模糊偏好程度。</li>
+<li>解释结果，为决策者提供决策支持。</li>
+</ul>
+</li>
+<li><p><strong>考虑实际应用场景</strong>：</p>
+<ul>
+<li>在实际应用中，可能需要根据具体的数据和需求调整参数和方法。</li>
+</ul>
+</li>
+</ol>
+<h3 id="七、结论"><a href="#七、结论" class="headerlink" title="七、结论"></a>七、结论</h3><p>这篇文章为比较和排序区间数提供了两种有效的方法：价值判断指数和模糊偏好排序。这两种方法各有特点，适用于不同的决策场景和决策者偏好。通过深入理解这些方法，你可以在处理含有不确定性或容忍范围的决策问题时更加得心应手。</p>
+]]></content>
+      <tags>
+        <tag>论文阅读</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Docker快速部署Graphhopper实现离线地图路径规划</title>
+    <url>/2024/07/11/%E5%BF%AB%E9%80%9F%E9%83%A8%E7%BD%B2Graphhopper%E5%AE%9E%E7%8E%B0%E7%A6%BB%E7%BA%BF%E5%9C%B0%E5%9B%BE%E8%B7%AF%E5%BE%84%E8%A7%84%E5%88%92%E5%8A%9F%E8%83%BD/</url>
+    <content><![CDATA[<p>前情提要：</p>
+<p>去年的时候做了一个结合本地地图服务的CVRP项目。但是该服务需要配置本地环境，工作量极大，耗时很长。</p>
+<p>今天带来的方法借助docker可以快速部署地图服务，节约90%的时间。</p>
+<p>该方法需要借助Docker实现，所需需要提前安装好Docker。关于Docker的安装可以参考我的其他教程。</p>
+<p>还需要提前下载好地图文件。可以去<a href="https://www.openstreetmap.org/%E4%B8%8B%E8%BD%BD%E3%80%82">https://www.openstreetmap.org/下载。</a></p>
+<p>最终实现效果如下：</p>
+<p><img src="/../images/TSP%E7%BB%93%E6%9E%9C%E5%B1%95%E7%A4%BA2.png"></p>
+<p>#1. 通过Docker hub拉取镜像</p>
+<p>打开命令行工具（例如，终端、命令提示符或PowerShell），然后运行以下命令来从Docker Hub拉取<code>israelhikingmap/graphhopper</code>镜像：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker pull israelhikingmap/graphhopper:latest</span><br></pre></td></tr></table></figure>
+
+<h1 id="2-运行Docker"><a href="#2-运行Docker" class="headerlink" title="2. 运行Docker"></a>2. 运行Docker</h1><p>在下载好地图数据后可以进行该操作。例如，我的地图数据存储在”D:\open_street_map\china-latest.osm.pbf”</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker run -p 8989:8989 -v D:\/open_street_map:/graphhopper/mapdata  israelhikingmap/graphhopper --input mapdata/china-latest.osm.pbf --host 0.0.0.0</span><br></pre></td></tr></table></figure>
+
+<h1 id="3-内容溢出问题"><a href="#3-内容溢出问题" class="headerlink" title="3. 内容溢出问题"></a>3. 内容溢出问题</h1><p>因为地图数据很大，所以可能出现内存相关报错。这时可以多分配一些内存。加上-e JAVA_OPTS&#x3D;”-Xmx4g -Xms4g”即可。</p>
+<h1 id="使用本地地图服务"><a href="#使用本地地图服务" class="headerlink" title="使用本地地图服务"></a>使用本地地图服务</h1><p>经过上述步骤之后，本地服务即可成功运行。打开浏览器地址栏输入‘<a href="http://localhost:8989/maps/?profile=car)%E2%80%99%E5%90%8E%E5%8D%B3%E5%8F%AF%E4%BD%BF%E7%94%A8%E8%AF%A5%E6%9C%8D%E5%8A%A1%E3%80%82">http://localhost:8989/maps/?profile=car)’后即可使用该服务。</a></p>
+<p>有了这样的一个本地服务之后，有哪些玩法呢？</p>
+<h2 id="TSP项目"><a href="#TSP项目" class="headerlink" title="TSP项目"></a>TSP项目</h2><p>可以做一个本地的旅游路线规划求解器。通过这样一个函数即可获取两点之间的实际路径距离。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">lanlon_to_distance</span>(<span class="params">lat1,lon1,lat2,lon2</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    将经纬度传入本地服务器，根据路网数据，在本地进行路径规划，返回两点之间的路径距离以及时间</span></span><br><span class="line"><span class="string">    </span></span><br><span class="line"><span class="string">    Args:</span></span><br><span class="line"><span class="string">        lat1 (float): 地点1纬度</span></span><br><span class="line"><span class="string">        lon1 (float): 地点1经度</span></span><br><span class="line"><span class="string">        lat2 (float): 地点2纬度</span></span><br><span class="line"><span class="string">        lon2 (float): 地点2纬度</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    </span><br><span class="line">    url_head = <span class="string">&#x27;http://127.0.0.1:8989/route?point=&#x27;</span></span><br><span class="line">    url_tail = <span class="string">&#x27;&amp;profile=car&amp;layer=OpenStreetMap&#x27;</span></span><br><span class="line">    url = url_head + <span class="built_in">str</span>(lat1) + <span class="string">&#x27;,&#x27;</span> + <span class="built_in">str</span>(lon1) + <span class="string">&#x27;&amp;point=&#x27;</span> + <span class="built_in">str</span>(lat2) + <span class="string">&#x27;,&#x27;</span> + <span class="built_in">str</span>(lon2) + url_tail</span><br><span class="line">    headers = &#123;<span class="string">&#x27;Connection&#x27;</span>:<span class="string">&#x27;close&#x27;</span>&#125;</span><br><span class="line">    response = requests.get(url,headers=headers)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        info = response.json()[<span class="string">&#x27;paths&#x27;</span>][<span class="number">0</span>]</span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        <span class="built_in">print</span>(response.json())</span><br><span class="line">    <span class="comment"># print(info)  # 获取json</span></span><br><span class="line">    <span class="comment"># print(info[&#x27;distance&#x27;])  # 获取路径距离,单位为米</span></span><br><span class="line">    <span class="comment"># print(info[&#x27;time&#x27;])  # 获取路径时间，单位为毫秒</span></span><br><span class="line">    distance = info[<span class="string">&#x27;distance&#x27;</span>]/<span class="number">1000</span>  <span class="comment"># 距离单位转为千米</span></span><br><span class="line">    <span class="keyword">return</span> distance</span><br></pre></td></tr></table></figure>
+
+<p>有了路径距离之后，可以使用各种算法求解。</p>
+<p>求解出最优路径之后，还可以通过该服务来展示路线。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">generate_url</span>(<span class="params">route_lonlat</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;生成一条路径可视化的网页链接</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    Args:</span></span><br><span class="line"><span class="string">        route (_type_): 路径的经纬度坐标列表</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    Returns:</span></span><br><span class="line"><span class="string">        _type_: 网页链接，可视化展示每辆车的行驶路线</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    url = <span class="string">&#x27;&#x27;</span></span><br><span class="line">    url_head = <span class="string">&#x27;http://127.0.0.1:8989/maps/?point=&#x27;</span></span><br><span class="line">    url_tail = <span class="string">&#x27;&amp;profile=car&amp;layer=OpenStreetMap&#x27;</span></span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">len</span>(route_lonlat) &gt; <span class="number">2</span>:</span><br><span class="line">        url = url_head + <span class="built_in">str</span>(route_lonlat[<span class="number">0</span>][<span class="number">1</span>]) + <span class="string">&#x27;,&#x27;</span> + <span class="built_in">str</span>(route_lonlat[<span class="number">0</span>][<span class="number">0</span>])</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>,<span class="built_in">len</span>(route_lonlat)):</span><br><span class="line">            url = url + <span class="string">&#x27;&amp;point=&#x27;</span> + <span class="built_in">str</span>(route_lonlat[i][<span class="number">1</span>]) + <span class="string">&#x27;,&#x27;</span> + <span class="built_in">str</span>(route_lonlat[i][<span class="number">0</span>])</span><br><span class="line">        url += url_tail</span><br><span class="line">    <span class="keyword">return</span> url</span><br></pre></td></tr></table></figure>
+
+<p>生成的链接点进去即可可视化展示路线。</p>
+<p><img src="/../images/TSP%E7%BB%93%E6%9E%9C%E5%B1%95%E7%A4%BA-1720692249354.png"></p>
+<h1 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h1><p><a href="https://john-start.github.io/2024/05/06/%E6%9C%AC%E5%9C%B0%E9%83%A8%E7%BD%B2Graphhopper%E5%AE%9E%E7%8E%B0%E7%A6%BB%E7%BA%BF%E5%9C%B0%E5%9B%BE%E8%B7%AF%E5%BE%84%E8%A7%84%E5%88%92%E5%8A%9F%E8%83%BD%EF%BC%88%E5%B0%8F%E7%99%BD%E6%94%BE%E5%BF%83%E9%A3%9F%E7%94%A8%E7%89%88%EF%BC%89/">本地部署Graphhopper实现离线地图路径规划功能（小白放心食用版） | TUUG WORLD (john-start.github.io)</a></p>
+<p><a href="https://blog.csdn.net/faithful1/article/details/132298190?spm=1001.2014.3001.5501">本地部署Graphhopper实现离线地图路径规划功能（小白放心食用版）_graphhopper 离线地图导航-CSDN博客</a></p>
+]]></content>
+      <tags>
+        <tag>车辆路径规划</tag>
       </tags>
   </entry>
 </search>
