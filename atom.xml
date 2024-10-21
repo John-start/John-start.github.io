@@ -2,11 +2,11 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>TUUG WORLD</title>
   
-  <subtitle>与理想平等交易，与喧嚣保持距离</subtitle>
+  <subtitle>手把青秧插满田，低头便见水中天。心地清净方为道，退步原来是向前。</subtitle>
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2024-08-10T12:24:16.835Z</updated>
+  <updated>2024-07-12T03:15:50.058Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -15,23 +15,6 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
-  
-  <entry>
-    <title>The Road Not Taken 未选择的路</title>
-    <link href="http://example.com/2024/08/10/%E6%9C%AA%E9%80%89%E6%8B%A9%E7%9A%84%E8%B7%AF/"/>
-    <id>http://example.com/2024/08/10/%E6%9C%AA%E9%80%89%E6%8B%A9%E7%9A%84%E8%B7%AF/</id>
-    <published>2024-08-10T12:17:36.799Z</published>
-    <updated>2024-08-10T12:24:16.835Z</updated>
-    
-    
-    <summary type="html">一首很经典的小诗</summary>
-    
-    
-    
-    
-    <category term="随便写写" scheme="http://example.com/tags/%E9%9A%8F%E4%BE%BF%E5%86%99%E5%86%99/"/>
-    
-  </entry>
   
   <entry>
     <title>钢铁雄心4陆军装备与编制设计参考</title>
@@ -138,31 +121,14 @@
   </entry>
   
   <entry>
-    <title>雨天emo</title>
+    <title>无题</title>
     <link href="http://example.com/2024/05/27/%E9%9B%A8%E5%A4%A9emo/"/>
     <id>http://example.com/2024/05/27/%E9%9B%A8%E5%A4%A9emo/</id>
     <published>2024-05-27T06:11:27.582Z</published>
-    <updated>2024-05-27T07:02:20.274Z</updated>
+    <updated>2024-10-21T09:12:40.722Z</updated>
     
     
-    <summary type="html">雨天的小emo</summary>
-    
-    
-    
-    
-    <category term="随便写写" scheme="http://example.com/tags/%E9%9A%8F%E4%BE%BF%E5%86%99%E5%86%99/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>市井烟火气，甚抚凡人心</title>
-    <link href="http://example.com/2024/05/13/%E5%B8%82%E4%BA%95%E7%83%9F%E7%81%AB%E6%B0%94%EF%BC%8C%E7%94%9A%E6%8A%9A%E5%87%A1%E4%BA%BA%E5%BF%83/"/>
-    <id>http://example.com/2024/05/13/%E5%B8%82%E4%BA%95%E7%83%9F%E7%81%AB%E6%B0%94%EF%BC%8C%E7%94%9A%E6%8A%9A%E5%87%A1%E4%BA%BA%E5%BF%83/</id>
-    <published>2024-05-13T02:01:52.265Z</published>
-    <updated>2024-05-20T09:15:44.628Z</updated>
-    
-    
-    <summary type="html">慢品人间烟火色，闲观人间岁月长</summary>
+    <summary type="html">test</summary>
     
     
     
@@ -244,16 +210,16 @@
     <link href="http://example.com/2024/05/05/hello-world/"/>
     <id>http://example.com/2024/05/05/hello-world/</id>
     <published>2024-05-05T13:00:15.694Z</published>
-    <updated>2024-05-07T02:34:55.343Z</updated>
+    <updated>2024-10-21T09:12:05.156Z</updated>
     
     
       
       
-    <summary type="html">&lt;center&gt;我记得有些路是我一个人走过来的&lt;/center&gt;
+    <summary type="html">&lt;center&gt;Hello World&lt;/center&gt;
 
-&lt;center&gt;路很黑&lt;/center&gt;
 
-&lt;center&gt;风也很大&lt;/center&gt;</summary>
+
+</summary>
       
     
     
