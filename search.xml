@@ -594,4 +594,32 @@
         <tag>钢铁雄心IV</tag>
       </tags>
   </entry>
+  <entry>
+    <title>Hahahahahahaha~</title>
+    <url>/2024/11/01/Hahahahaha/</url>
+    <content><![CDATA[<img src="../images/image-20241101134240379.png" alt="image-20241101134240379" style="zoom: 50%;" />
+
+<img src="../images/image-20241101134252526.png" alt="image-20241101134252526" style="zoom:50%;" />]]></content>
+      <tags>
+        <tag>学术追星</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Logic-based Benders分解学习笔记</title>
+    <url>/2024/10/28/Logic-based%20Benders%E5%88%86%E8%A7%A3%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</url>
+    <content><![CDATA[<h1 id="学习目标"><a href="#学习目标" class="headerlink" title="学习目标"></a>学习目标</h1><p>1.掌握Logic-based Benders分解的原理、学会如何应用</p>
+<p>2.理解Logic-based Benders分解与Benders分解的区别</p>
+<p>3.将Logic-based Benders分解应用到毕业论文的第五章</p>
+<h1 id="理论介绍"><a href="#理论介绍" class="headerlink" title="理论介绍"></a>理论介绍</h1><p><strong>核心思想</strong>： 从错误中学习 (Learn from mistake)。</p>
+<p><strong>Logic-based Benders分解与Benders分解的区别</strong>: 逻辑 Benders分解（Logic-based Benders decomposition）是一种基于经典 Benders 分解的扩展方法，通过逻辑推理代替传统的线性对偶来生成 Benders 切割，从而适用于更广泛的问题类型。这种方法的关键在于定义一种“推理对偶(inference duality)”而非线性对偶，通过逻辑推理在约束下生成最强的下界。这种方法不仅适用于线性优化，还可处理可满足性问题（satisfiability）、0-1 编程和机器调度问题等。</p>
+<h2 id="推理对偶"><a href="#推理对偶" class="headerlink" title="推理对偶"></a>推理对偶</h2><p>推理对偶是逻辑benders分解的核心。为了学习推理对偶，需要引入语义蕴含(semantic implication)这个概念。</p>
+<h3 id="语义蕴含"><a href="#语义蕴含" class="headerlink" title="语义蕴含"></a>语义蕴含</h3><h2 id="logic-based-benders求解"><a href="#logic-based-benders求解" class="headerlink" title="logic-based benders求解"></a>logic-based benders求解</h2><p>针对Logic-based Benders decomposition method for the seru scheduling problem with sequence-dependent setup time and DeJong’s learning effect这篇文章的问题。</p>
+<p>具体的benders cut可以设置为：<img src="/../images/image-20241029141118708.png" alt="image-20241029141118708"></p>
+<p>为什么这么设置？因为其具有两大属性。</p>
+<p>首先，这个cut必须从主问题的可行空间中移除当前的解；其次，这个cut不会将全局最优解从解空间中移除。</p>
+]]></content>
+      <tags>
+        <tag>学习笔记</tag>
+      </tags>
+  </entry>
 </search>
